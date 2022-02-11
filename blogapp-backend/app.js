@@ -4,18 +4,18 @@ const UserInfo = require('./src/model/userDB');
 const ArticleInfo =require('./src/model/ArticleDB');
 const path = require('path');
 
-app.use(express.static('./build/'));
+// app.use(express.static('./build/'));
 
-app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname + '/build/index.html'));
-});
+// app.get('/*', function(req, res) {
+//     res.sendFile(path.join(__dirname + '/build/index.html'));
+// });
 
 const app= express();
 app.use(cors());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
-app.post('/api/login',(req,res)=>{
+app.post('/login',(req,res)=>{
     const {email,password} = req.body;
     UserInfo.findOne({email:email},(err,user)=>{
         if(user){
@@ -32,7 +32,7 @@ app.post('/api/login',(req,res)=>{
     })
 });
 
-app.post('/api/signup',(req,res)=>{
+app.post('/signup',(req,res)=>{
     const {username,email,password} = req.body;
     UserInfo.findOne({email:email},(err,user)=>{
         if(user){
@@ -103,20 +103,14 @@ app.post('/api/article/add-blog', (req, res) => {
     })
 });
 
-app.delete('/api/article/:name/delete-blog', (req, res) => {
-    try{
-    const articleName = req.params.name;
-        ArticleInfo.deleteOne({ name: articleName });
-        res.status(200).json("User deleted Successfully");
-    } catch (error){
-        res.status(500).json({ message: error.message});     
-    }
+app.delete('/api/article/delete-blog/:name', async (req, res) => {
     
+        const name = req.params.name;
+        await ArticleInfo.findOneAndRemove({name}).exec();
+        res.send('Article Deleted') ;
 });
 
 
-
-
 app.listen((process.env.PORT || 5000), function(){
-    console.log('listening on *:5000');
-  });
+    console.log('listening on :5000');
+});
