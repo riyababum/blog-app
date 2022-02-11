@@ -34,7 +34,7 @@
 #buttons{
     padding-left: 43.5%;
 }
-#editbtn  , #delete{
+#editbtn {
     border: none;
     padding: 10px ;
     background-color: rgb(238, 164, 66);
@@ -44,8 +44,27 @@
     width: 80px;
     border-radius: 10px;
 }
-#editbtn:hover , #delete:hover{
+#editbtn:hover {
     border: 1px solid rgb(238, 164, 66);
     background-color: whitesmoke;
     cursor: pointer;
+}
+
+#delete{
+    border: none;
+    padding: 5px ;
+    background-color: rgb(238, 164, 66);
+    font-size: 15px;
+    text-align: center;
+    margin-left:300px;
+    width: 70px;
+    border-radius: 7px;
+}
+#delete:hover{
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+
+#container hr{
+    margin: 0 300px;
 }

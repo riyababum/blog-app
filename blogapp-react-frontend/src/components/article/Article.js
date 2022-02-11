@@ -7,14 +7,13 @@ function Article(props) {
     const navigate = useNavigate();
     const {name} = useParams();
 
-    const {setArticleName} = props;
+    const {authorized, setArticleName } = props;
 
     const [articleData,setArticleData] = useState({});
 
     async function fetchAPI (){
         const response = await fetch(`/api/article/${name}`);
         const body = await response.json();
-        console.log(body); 
         setArticleData(body);
     }
 
@@ -22,11 +21,12 @@ function Article(props) {
         fetchAPI();  
     },[]);
 
-    async function deleteBlog() {
-        await axios.delete(`/api/article/${name}/delete-blog`);
+    async function deleteBlog(articleName) {
+        
+        axios.delete(`/api/article/delete-blog/${articleName}`);     
+
         navigate('/article-list');
     }
-
     return (
         <>
             <div className='article'>
@@ -34,13 +34,14 @@ function Article(props) {
                 <p id='article-body'>{articleData.description}</p>
                 <br/><br/>
             </div>
+            {authorized ?
             <div id='buttons'>
-                <Link to={`/article/${articleData.name}/edit`} >
+                <Link to={`/article/edit`} >
                     <button onClick={()=>setArticleName(articleData.name)} id='editbtn'>Edit</button>
                 </Link>
                 
-                <button onClick={()=>deleteBlog()} id='delete'>Delete</button>
-            </div>
+                <button onClick={()=>deleteBlog(articleData.name)} id='editbtn'>Delete</button>      
+            </div> : authorized ===false }
         </>
     );
 }
