@@ -22,7 +22,8 @@ const Edit = (props) => {
         setBlog(response.data);
     }
 
-    const editBlogDetails = async() => {
+    const editBlogDetails = async(e) => {
+        e.preventDefault();
         await axios.put(`/api/article/${articleName}/edit`, blog);
 
         navigate('/article-list');
@@ -48,7 +49,7 @@ const Edit = (props) => {
                 <textarea rows='10' cols='50' value={blog.description} name='description' type='text' onChange={(e) =>handleChange(e)}></textarea>
                 <br/><br/>
 
-                <button onClick={() => editBlogDetails()}>Update</button><br/>
+                <button onClick={(e) => editBlogDetails(e)}>Update</button><br/>
             </form>
         </div>
     );
